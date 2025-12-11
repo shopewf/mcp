@@ -211,6 +211,11 @@ Sorts the current log stream by the specified columns, in either ascending (defa
 <sort_expr> := <expr> (asc | desc)?
 ```
 
+To sort by date time, use this
+```
+sort by datetime desc
+```
+
 Example:
 
 ```
@@ -287,7 +292,7 @@ search "application"
 {"level":"INFO", "host":" host2", "timestamp": "2019-01-03T00:06:59"}
 ```
 
-You MUST only use this if you are certain in the property values to select. Do not guess the property names.
+Do NOT use the select query if you are not certain of the property values to select. Do NOT guess the property names.
 
 ### `extend`
 

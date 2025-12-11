@@ -291,7 +291,8 @@ def search_logs(
         ...,
         description="End filter log's date and time, in the format defined by RFC 3339."
         "If not supplied, set this value to the current date time. "
-        "The time must be supplied in UTC timezone.",
+        "The time must be supplied in UTC timezone."
+        "This value MUST be 14 days or less from the time_start.",
     ),
     search_query: str = Field(..., description="The log search query. "),
     limit: Optional[int] = Field(

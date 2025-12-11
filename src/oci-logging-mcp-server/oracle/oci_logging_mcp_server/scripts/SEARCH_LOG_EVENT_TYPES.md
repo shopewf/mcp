@@ -5,10 +5,24 @@ Examples to search for logs regarding a launch instance event:
 `| where type = 'com.oraclecloud.computeapi.launchinstance.begin'`
 `| where type = 'com.oraclecloud.computeapi.launchinstance.end'`
 
-Do NOT attempt to filter on event types using a wildcard (*) operator.
+Do NOT attempt to filter on event types using a wildcard (*) operator. Do NOT modify the event ID whatsoever - always enter it exactly as it is shown in this table.
+
+When filtering on multiple event types, follow this syntax using the `or` logical operator:
+`| where (type = 'com.oraclecloud.computeapi.launchinstance.begin' or type = 'com.oraclecloud.computeapi.launchinstance.end')`
 
 | Event Description | Event ID |
 |-------------------|----------|
+| Policy - Create | com.oraclecloud.identitycontrolplane.createpolicy |
+| Policy - Update | com.oraclecloud.identitycontrolplane.updatepolicy |
+| Policy - Delete | com.oraclecloud.identitycontrolplane.deletepolicy |
+| Instance - Launch Begin | com.oraclecloud.computeapi.launchinstance.begin |
+| Instance - Launch End | com.oraclecloud.computeapi.launchinstance.end |
+| Security List - Create | com.oraclecloud.virtualnetwork.createsecuritylist |
+| Security List - Update | com.oraclecloud.virtualnetwork.updatesecuritylist |
+| Security List - Delete | com.oraclecloud.virtualnetwork.deletesecuritylist |
+| Network Security Group - Create | com.oraclecloud.virtualnetwork.createnetworksecuritygroup |
+| Network Security Group - Update | com.oraclecloud.virtualnetwork.updatenetworksecuritygroup |
+| Network Security Group - Delete | com.oraclecloud.virtualnetwork.deletenetworksecuritygroup |
 | Database Tools Identity - Refresh Identity Credential End | com.oraclecloud.dbtoolsserviceapi.refreshdatabasetoolsidentitycredential.end |
 | Database Tools Identity - Refresh Identity Credential Begin | com.oraclecloud.dbtoolsserviceapi.refreshdatabasetoolsidentitycredential.begin |
 | Database Tools Identity - Change Compartment End | com.oraclecloud.dbtoolsserviceapi.changedatabasetoolsidentitycompartment.end |
@@ -351,7 +365,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | Update Global Accelerator End | com.oraclecloud.gax.public.api.updateglobalaccelerator.end |
 | Cache Database - Unload Begin | com.oraclecloud.zerolatency.unloadzerolatencydatabase.begin |
 | Security Policy Delete - End | com.oraclecloud.datasafe.deletesecuritypolicy.end |
-| Instance - Launch End | com.oraclecloud.computeapi.launchinstance.end |
 | DR Plan Execution - Ignore Begin | com.oraclecloud.disasterrecovery.ignoredrplanexecution.begin |
 | Event - Create Update Ksplice Kernel Event | com.oraclecloud.osmh.createevent.kspliceupdate.updateksplicekernel |
 | Service Instance - Roll Back Patch Begin | com.oraclecloud.zerolatency.rollbackpatchzerolatency.begin |
@@ -518,7 +531,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | Work Request - Validate Software Source Begin | com.oraclecloud.osmh.validatesoftwaresource.begin |
 | Public IP - Create | com.oraclecloud.virtualnetwork.createpublicip |
 | Environment - Update Begin | com.oraclecloud.ohaaas.updateenvironment.begin |
-| Network Security Group - Create | com.oraclecloud.virtualnetwork.createnetworksecuritygroup |
 | BDS Instance - Create Nodes Backups End | com.oraclecloud.bds.cp.backupnodes.end |
 | Connection Delete Begin | com.oraclecloud.odms.deleteconnection.begin |
 | Work Request - Install Other Windows Updates Begin | com.oraclecloud.osmh.installotherwindowsupdates.begin |
@@ -1028,7 +1040,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | Managed Instance - Install Package | com.oraclecloud.osms.installpackageonmanagedinstance |
 | ILOM Fault | com.oraclecloud.hardwarefault.ilomfault |
 | Log Group - Create | com.oraclecloud.logginganalytics.createloganalyticsloggroup |
-| Network Security Group - Delete | com.oraclecloud.virtualnetwork.deletenetworksecuritygroup |
 | Delete Target Database - End | com.oraclecloud.datasafe.deletetargetdatabase.end |
 | Autonomous Data Guard Association - Reinstate Begin | com.oraclecloud.databaseservice.reinstateautonomousdataguardassociation.begin |
 | Stream Distribution Channel - Update | com.oraclecloud.mediaservices.updatestreamdistributionchannel |
@@ -1048,7 +1059,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | Managed Instance Group - Update | com.oraclecloud.osms.updatemanagedinstancegroup |
 | Pricing Rule - Delete | com.oraclecloud.subscriptionpricingservice.deletepricingrule |
 | Delete Stack - End | com.oraclecloud.dataintelligencefoundation.deletestack.end |
-| Security List - Create | com.oraclecloud.virtualnetwork.createsecuritylist |
 | BDS Instance - Create Replace Configuration End | com.oraclecloud.bds.cp.createreplaceconfig.end |
 | API - Update End | com.oraclecloud.apigateway.updateapi.end |
 | Application - Update | com.oraclecloud.functions.updateapplication |
@@ -1265,7 +1275,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | Security Policy Configuration Update - Begin | com.oraclecloud.datasafe.updatesecuritypolicyconfig.begin |
 | Audit Profile Create - End | com.oraclecloud.datasafe.createauditprofile.end |
 | Instance - Create Begin | com.oraclecloud.omh.createomhinstance.begin |
-| Security List - Delete | com.oraclecloud.virtualnetwork.deletesecuritylist |
 | Cloud VM Cluster - Information | com.oraclecloud.databaseservice.cloudvmcluster.information |
 | Distributed Autonomous Database - Stop Begin | com.oraclecloud.globaldb.stopdistributedautonomousdatabase.begin |
 | Database - Enable DbManagement End | com.oraclecloud.databaseservice.enabledbmanagement.end |
@@ -1531,7 +1540,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | Distributed Database Private Endpoint - Change Compartment Begin | com.oraclecloud.globaldb.changedistributeddatabaseprivateendpointcompartment.begin |
 | Cache Database - Create Begin | com.oraclecloud.zerolatency.createzerolatencydatabase.begin |
 | Global Autonomous Database - Delete Begin | com.oraclecloud.globaldb.deleteshardeddatabase.begin |
-| Network Security Group - Update | com.oraclecloud.virtualnetwork.updatenetworksecuritygroup |
 | Entitlement - Move | com.oraclecloud.oraclerovingedgeinfrastructure.moveentitlement |
 | Create Delegation Control - End | com.oraclecloud.delegateaccesscontrol.createdelegationcontrol.end |
 | Sensitive Type Create - End | com.oraclecloud.datasafe.createsensitivetype.end |
@@ -1694,7 +1702,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | MySQL - Upgrade DB System - Update Crash Recovery End | com.oraclecloud.mysqlaas.updatecrashrecoveryforupgrade.end |
 | RevCycleEnvironment - Delete End | com.oraclecloud.ircscontrolplaneapi.deleterevcycleenvironment.end |
 | BDS Instance - Delete Resource Principal Configuration End | com.oraclecloud.bds.cp.deleteresourceprincipalconfiguration.end |
-| Security List - Update | com.oraclecloud.virtualnetwork.updatesecuritylist |
 | TriggeredAlert - Delete | com.oraclecloud.budgets.deletetriggeredalert |
 | Model - Create | com.oraclecloud.datascience.createmodel |
 | FsuCycle - Success | com.oraclecloud.fsu.fsucycle.success |
@@ -2202,8 +2209,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | Batch Job - Change Compartment Begin | com.oraclecloud.batch.changebatchjobcompartment.begin |
 | HostAgentScanResult - Export | com.oraclecloud.vulnerabilityscanning.exporthostagentscanresultcsv |
 | DHCP Options - Create | com.oraclecloud.virtualnetwork.createdhcpoptions |
-| Policy - Delete | com.oraclecloud.identitycontrolplane.deletepolicy |
-| Instance - Launch Begin | com.oraclecloud.computeapi.launchinstance.begin |
 | Compute Host - State Change | com.oraclecloud.computeapi.statechangecomputehosts |
 | Compute Host - Create | com.oraclecloud.computeapi.createcomputehosts |
 | Compute Host - Terminate | com.oraclecloud.computeapi.deletecomputehosts |
@@ -2218,7 +2223,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | WebLogic Domain - Scan Begin | com.oraclecloud.weblogicmanagement.scanwlsdomain.begin |
 | BDS Instance - Configure Disable ODH Service Certificate End | com.oraclecloud.bds.cp.disableodhservicecertificate.end |
 | Create Private Endpoint - End | com.oraclecloud.datasafe.createdatasafeprivateendpoint.end |
-| Policy - Update | com.oraclecloud.identitycontrolplane.updatepolicy |
 | Work Request - Update Packages Begin | com.oraclecloud.osmh.updatepackages.begin |
 | Global Autonomous Database - Change Compartment Begin | com.oraclecloud.globaldb.changeshardeddatabasecompartment.begin |
 | External MySQL DB System - Update | com.oraclecloud.databasemanagement.externalmysqlresource.dbsystem.update |
@@ -2533,7 +2537,6 @@ Do NOT attempt to filter on event types using a wildcard (*) operator.
 | Service Configuration - Update | com.oraclecloud.weblogicmanagement.updateconfiguration |
 | API - Create Begin | com.oraclecloud.apigateway.createapi.begin |
 | Create Alert Policy - Begin | com.oraclecloud.datasafe.createalertpolicy.begin |
-| Policy - Create | com.oraclecloud.identitycontrolplane.createpolicy |
 | Db Node Snapshot - Mount Begin | com.oraclecloud.databaseservice.mountdbnodesnapshot.begin |
 | DR Protection Group - Associate Begin | com.oraclecloud.disasterrecovery.associatedrprotectiongroup.begin |
 | Key - Change Compartment Begin | com.oraclecloud.keymanagementservice.changekeycompartment.begin |

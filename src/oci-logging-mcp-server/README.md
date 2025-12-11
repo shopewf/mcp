@@ -24,8 +24,12 @@ ORACLE_MCP_HOST=<hostname/IP address> ORACLE_MCP_PORT=<port number> uvx oracle.o
 | Tool Name | Description |
 | --- | --- |
 | list_log_groups | List log groups in a given compartment |
+| get_log_group | Get a log group with a given OCID |
 | list_logs | List logs in a given log group |
 | get_log | Get a log with a given log OCID |
+| search_log_query_syntax_guide | Returns static context for creating LQL queries |
+| get_paginated_event_types | Lists logging event types with built-in pagination |
+| search_logs | Lists logs using an LQL query in a given time range |
 
 ⚠️ **NOTE**: All actions are performed with the permissions of the configured OCI CLI profile. We advise least-privilege IAM setup, secure credential management, safe network practices, secure logging, and warn against exposing secrets.
 
