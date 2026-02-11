@@ -1,0 +1,45 @@
+# Python MCP HTTP Server
+
+## How to Use
+
+1. **Install dependencies:**
+   ```bash
+   pip install fastapi uvicorn
+   ```
+
+2. **Run the MCP server:**
+   ```bash
+   python server.py
+   ```
+   This will launch the server at `http://localhost:3002/mcp`.
+
+3. **Configure your MCP host/client:**
+   - If using `examples/basic-host` or another standard MCP App UI host, set the `SERVERS` environment variable:
+     ```bash
+     SERVERS='["http://localhost:3002/mcp"]' npm run start
+     ```
+   - Or use the UI/config setup described by your host, pointing it at this server's `/mcp` endpoint.
+
+4. **Test with the minimal HTML UI (`minimal-mcp-app.html`):**
+   - Open the UI in your host/client, or serve it directly and connect via MCP.
+   - Clicking the button will send a request to the "echo" tool and display the response.
+
+## How to Add New Tools
+
+- Edit `TOOL_HANDLERS` in `server.py` and add functions:
+    ```python
+    def tool_my_tool(arguments):
+        # do work with arguments...
+        return {
+            "content": [{"type": "text", "text": "result text"}],
+            "structuredContent": {"key": "value"}
+        }
+    TOOL_HANDLERS["my_tool"] = tool_my_tool
+    ```
+- That tool will now be available for MCP UI apps to invoke (use the name in `callServerTool({ name: "my_tool", ... })`).
+
+## Protocol
+
+- Accepts POST JSON at `/mcp`
+- Implements minimal MCP/JSON-RPC handling (`method: "callTool"`)
+- Returns result/errors as per MCP spec

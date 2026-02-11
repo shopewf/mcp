@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OCI Instances (MCP UI demo)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    #instances { margin-top: 1em; }
+    table { border-collapse: collapse; border: 1px solid #aaa; width: 95%; }
+    th, td { border: 1px solid #aaa; padding: 0.3em 0.7em; }
+    th { background: #f4f4f4; }
+    .error { color: #b00; }
+  </style>
+</head>
+<body>
+  <h2>List OCI Compute Instances</h2>
+  <form id="form">
+    <label>
+      Compartment ID:
+      <input type="text" id="compartmentId" style="width: 24em;" required>
+    </label>
+    <button type="submit">List Instances</button>
+  </form>
+  <div id="instances"></div>
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
