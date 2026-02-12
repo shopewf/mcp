@@ -3,11 +3,12 @@ Name: python-mcp-http-server
 Version: 0.1.0
 Summary: Minimal MCP HTTP server with FastAPI
 Author-email: Your Name <your.email@example.com>
-Requires-Python: >=3.8
+Requires-Python: >=3.13
 Description-Content-Type: text/markdown
-Requires-Dist: fastapi>=0.108.0
+Requires-Dist: mcp>=1.26.0
 Requires-Dist: oci==2.160.0
-Requires-Dist: uvicorn>=0.24.0
+Requires-Dist: uvicorn>=0.34.0
+Requires-Dist: starlette>=0.46.0
 
 # Python MCP HTTP Server
 

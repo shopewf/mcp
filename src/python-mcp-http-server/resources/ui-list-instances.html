@@ -1,0 +1,137 @@
+<!-- Generic Table MCP Widget: Handles FastMCP tools content[0].text as stringified JSON for data protocol compatibility -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MCP Table Widget (FastMCP Compat)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    table { width: 95%; border-collapse: collapse; border: 1px solid #aaa; }
+    th, td { border: 1px solid #aaa; padding: 0.3em 0.7em; }
+    th { background: #f4f4f4; }
+    .error { color: #b00; }
+    body { font-family: sans-serif; margin: 0; }
+    #debug { font-size: 12px; color: #666; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <table>
+    <thead id="tableHead"></thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  <div id="error" class="error"></div>
+  <pre id="debug"></pre>
+  <script type="module">
+    window.parent.postMessage({
+      jsonrpc: "2.0",
+      method: "readyForToolData",
+      params: {}
+    }, "*");
+    window.parent.postMessage({
+      jsonrpc: "2.0",
+      method: "ui/notifications/initialized",
+      params: {}
+    }, "*");
+
+    function logDebug(msg, obj) {
+      const dbg = document.getElementById("debug");
+      dbg.textContent = msg + (obj ? "\n" + JSON.stringify(obj, null, 2) : "");
+    }
+
+    function renderTable(data, headers) {
+      const tableHead = document.getElementById("tableHead");
+      const tableBody = document.getElementById("tableBody");
+      const errorDiv = document.getElementById("error");
+
+      tableHead.innerHTML = "";
+      tableBody.innerHTML = "";
+      errorDiv.textContent = "";
+
+      // Always show columns (if headers were discovered or default)
+      if (!headers || !headers.length) {
+        headers = ["id", "displayName", "lifecycleState", "shape"]; // fallback, can be customized
+      }
+
+      tableHead.innerHTML = "<tr>" + headers.map(k => `<th>${k}</th>`).join("") + "</tr>";
+
+      // If data is null: show loading
+      if (data === null) {
+        tableBody.innerHTML = "<tr><td colspan='" + headers.length + "'>Loading...</td></tr>";
+        logDebug("renderTable(loading)", null);
+        return;
+      }
+
+      // If data is empty: show no data found
+      if (!Array.isArray(data) || !data.length) {
+        tableBody.innerHTML = "<tr><td colspan='" + headers.length + "'>No data found.</td></tr>";
+        logDebug("renderTable:no data", data);
+        return;
+      }
+
+      // Else render table rows
+      tableBody.innerHTML = data
+        .map(
+          row =>
+            `<tr>${headers
+              .map(
+                key =>
+                  `<td>${
+                    row && row[key] !== undefined && row[key] !== null
+                      ? row[key]
+                      : ""
+                  }</td>`
+              )
+              .join("")}</tr>`
+        )
+        .join("");
+      logDebug("Table rendered with headers: ["+headers.join(", ")+"] and "+data.length+" rows.");
+    }
+
+    // Value can be FastMCP style (content[0].text stringified JSON) or pure structuredContent
+    function extractArray(eventData) {
+      if (!eventData || !eventData.jsonrpc || !eventData.method) return { data: null, headers: null };
+      // FastMCP: result.content[0].text is a JSON string
+      if (eventData.result && eventData.result.content?.[0]?.text) {
+        try {
+          const resultObj = JSON.parse(eventData.result.content[0].text);
+          let arr = null;
+          if (resultObj && typeof resultObj === "object") {
+            arr = resultObj.instances || Object.values(resultObj).find(Array.isArray) || [];
+            const headers = arr.length ? Object.keys(arr[0]) : [];
+            return { data: arr, headers };
+          }
+        } catch {}
+      }
+      // JSON-RPC notification (preferred): params.data sent directly
+      if (eventData.params && Array.isArray(eventData.params.data)) {
+        const arr = eventData.params.data;
+        const headers = arr.length ? Object.keys(arr[0]) : [];
+        return { data: arr, headers };
+      }
+      return { data: null, headers: null };
+    }
+
+    window.addEventListener("message", (evt) => {
+      // Always attempt to extract and render, show loading/no data as needed
+      const { data, headers } = extractArray(evt.data);
+      if (evt.data && evt.data.jsonrpc === "2.0" && evt.data.method === "ui/notifications/tool-result") {
+        logDebug("tool-result event:", data);
+        renderTable(data, headers);
+      } else {
+        logDebug("Non-toolResult message ignored (method/type):", {
+          method: evt.data?.method, type: evt.data?.type
+        });
+      }
+    });
+
+    // Initial state: always show table columns and loading
+    renderTable(null, ["id", "displayName", "lifecycleState", "shape"]);
+
+    // Optionally render immediately if window.TOOL_RESULT is set for local dev
+    if (window.TOOL_RESULT && Array.isArray(window.TOOL_RESULT)) {
+      logDebug("Caught window.TOOL_RESULT:", window.TOOL_RESULT);
+      renderTable(window.TOOL_RESULT);
+    }
+  </script>
+</body>
+</html>
